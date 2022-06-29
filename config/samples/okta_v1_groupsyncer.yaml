@@ -1,0 +1,15 @@
+apiVersion: okta.github.com/v1
+kind: GroupSyncer
+metadata:
+  name: groupsyncer-sample
+spec:
+  group: engineering
+  template: |
+    {{- $email := index .Profile "email" }}
+    {{- $firstname := index .Profile "firstName" }}
+    {{- $lastname := index .Profile "lastName" }}
+    {{- $awsuser := replace $email "@" "-" }}
+    {{- $namespace := replace $awsuser "." "-" -}}
+    - namespace: {{ $namespace }}
+      awsuser: {{ $awsuser }}
+      apexdomain: test.test

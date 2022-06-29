@@ -1,0 +1,24 @@
+# permissions for end users to edit groupsyncers.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: groupsyncer-editor-role
+rules:
+- apiGroups:
+  - okta.github.com
+  resources:
+  - groupsyncers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - okta.github.com
+  resources:
+  - groupsyncers/status
+  verbs:
+  - get
