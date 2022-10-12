@@ -8,8 +8,10 @@ spec:
     {{- $email := index .Profile "email" }}
     {{- $firstname := index .Profile "firstName" }}
     {{- $lastname := index .Profile "lastName" }}
-    {{- $awsuser := replace $email "@" "-" }}
-    {{- $namespace := replace $awsuser "." "-" -}}
+    {{- $awsuser := replace "@" "-" $email }}
+    {{- $namespace := replace "." "-" $awsuser -}}
+    {{- $roleFunction2 := index .Profile "roleFunction2" }}
     - namespace: {{ $namespace }}
       awsuser: {{ $awsuser }}
+      rolefunction2: {{ $roleFunction2 }}
       apexdomain: test.test

@@ -77,12 +77,22 @@ func (r *GroupSyncerReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 	}
 
 	var cmData string
+	tplErrs := make(map[string]string)
 	for _, v := range users {
 		out, err := gs.ProcessTemplate((*v))
 		if err != nil {
-			return ctrl.Result{}, err
+			profile := *v.Profile
+			if login, ok := profile["login"]; ok {
+				tplErrs[login.(string)] = err.Error()
+			}
+
 		}
 		cmData = fmt.Sprintf("%s%s", cmData, out)
+	}
+	gs.Status.TemplateErrors = tplErrs
+	if err := r.Status().Update(ctx, &gs); err != nil {
+		ctrlLog.Error(err, "unable to update GroupSyncer status")
+		return ctrl.Result{}, err
 	}
 	cm := &corev1.ConfigMap{
 		ObjectMeta: v1.ObjectMeta{Name: gs.Name, Namespace: gs.Namespace},

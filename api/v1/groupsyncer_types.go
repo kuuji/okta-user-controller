@@ -21,6 +21,7 @@ import (
 	"html/template"
 	"strings"
 
+	"github.com/Masterminds/sprig/v3"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -41,6 +42,7 @@ type GroupSyncerSpec struct {
 type GroupSyncerStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	TemplateErrors map[string]string `json:"templateErrors,omitempty"`
 }
 
 //+kubebuilder:object:root=true
@@ -69,13 +71,17 @@ func init() {
 }
 
 func (in GroupSyncer) ProcessTemplate(o interface{}) (string, error) {
-	funcMap := template.FuncMap{
-		"replace": replace,
-		"lower":   lower,
+	// funcMap := template.FuncMap{
+	// 	"replace": replace,
+	// 	"lower":   lower,
+	// }
+
+	tpl, err := template.New("").Funcs(sprig.FuncMap()).Parse(string(in.Spec.Template))
+	if err != nil {
+		return "", err
 	}
-	tpl, _ := template.New("").Funcs(funcMap).Parse(string(in.Spec.Template))
 	var out bytes.Buffer
-	err := tpl.Execute(&out, o)
+	err = tpl.Execute(&out, o)
 	if err != nil {
 		return "", err
 	}
