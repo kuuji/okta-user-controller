@@ -1,0 +1,41 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: {{ include "okta-user-controller.fullname" . }}-manager-role
+rules:
+- apiGroups:
+  - okta.github.com
+  resources:
+  - groupsyncers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - okta.github.com
+  resources:
+  - groupsyncers/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - okta.github.com
+  resources:
+  - groupsyncers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - list
+  - get
+  - watch
