@@ -58,8 +58,16 @@ func (r *GroupSyncerReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 
 	var gs oktav1.GroupSyncer
 	if err := r.Get(ctx, req.NamespacedName, &gs); err != nil {
-		ctrlLog.Error(err, "unable to fetch GroupSyncer")
-		return ctrl.Result{}, client.IgnoreNotFound(err)
+		ctrlLog.Info("unable to fetch GroupSyncer, likely deleted")
+		ctrlLog.Info("removing associated configmap", "configmap", req.NamespacedName)
+		err := r.Client.Delete(ctx, &corev1.ConfigMap{ObjectMeta: v1.ObjectMeta{Name: req.Name, Namespace: req.Namespace}})
+		if err != nil {
+			ctrlLog.Info("failed to delete configmap, likely already gone", "cm", req.NamespacedName)
+			ctrlLog.Info("stopping from requeing")
+			return ctrl.Result{Requeue: false}, nil
+		}
+		ctrlLog.Info("configmap removed", "configmap", req.NamespacedName)
+		return ctrl.Result{Requeue: false}, nil
 	}
 
 	o := okta.NewOktaService(*r.OktaConfig)
@@ -89,8 +97,11 @@ func (r *GroupSyncerReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 		if err != nil {
 			return ctrl.Result{}, err
 		}
+		ctrlLog.Info("configMap updated", "cm", cm)
 	} else if err != nil {
 		return ctrl.Result{}, err
+	} else {
+		ctrlLog.Info("configMap created", "cm", cm)
 	}
 
 	return ctrl.Result{RequeueAfter: time.Minute}, nil
