@@ -1,0 +1,13 @@
+apiVersion: okta.github.com/v1
+kind: GroupSyncer
+metadata:
+  name: gs-engfirstlast
+spec:
+  group: engineering
+  template: |
+    {{- $email := index .Profile "email" }}
+    {{- $firstname := index .Profile "firstName" }}
+    {{- $lastname := index .Profile "lastName" -}}
+    - firstName: {{ $firstname }}
+      lastName: {{ $lastname }}
+      email: {{ $email }}
