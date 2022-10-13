@@ -2,6 +2,7 @@ version: v1beta11
 
 # `vars` specifies variables which may be used as ${VAR_NAME} in devspace.yaml
 vars:
+- name: DOCKER_REGISTRY
 - name: IMAGE
   value: ${DOCKER_REGISTRY}/okta-user-controller
 
@@ -16,18 +17,8 @@ images:
         cache: true
         snapshotMode: full
         insecure: false
-        resources:
-          requests:
-            memory: "3500Mi"
-            cpu: "1700m"
-          limits:
-            cpu: "1700m"
-            memory: "3500Mi"
-        pullSecret: ${PULL_SECRET}
         annotations:
           sidecar.istio.io/inject: "false"
-        nodeSelector:
-          nodegroup: cicd
 # `deployments` tells DevSpace how to deploy this project
 deployments:
 - name: okta-user-controller

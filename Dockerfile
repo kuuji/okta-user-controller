@@ -1,5 +1,5 @@
 # Build the manager binary
-FROM docker-virtual.jfrog.prodigygame.org/golang:1.17 as builder
+FROM golang:1.19 as builder
 
 WORKDIR /workspace
 # Copy the Go Modules manifests
