@@ -4,7 +4,7 @@ The okta user controller allows to sync okta users from a given group to a confi
 
 ## Description
 
-Using the CR GroupSyncer, define which group to source users from and what data to write to the configmap.
+Using the CR GroupTemplate, define which group to source users from and what data to write to the configmap.
 The template field uses go templating and expect an okta user Profile.
 
 This can be used as glue for other automations.

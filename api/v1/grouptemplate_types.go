@@ -28,8 +28,8 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// GroupSyncerSpec defines the desired state of GroupSyncer
-type GroupSyncerSpec struct {
+// GroupTemplateSpec defines the desired state of GroupTemplate
+type GroupTemplateSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
@@ -38,8 +38,8 @@ type GroupSyncerSpec struct {
 	Template string `json:"template,omitempty"`
 }
 
-// GroupSyncerStatus defines the observed state of GroupSyncer
-type GroupSyncerStatus struct {
+// GroupTemplateStatus defines the observed state of GroupTemplate
+type GroupTemplateStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	TemplateErrors map[string]string `json:"templateErrors,omitempty"`
@@ -48,29 +48,29 @@ type GroupSyncerStatus struct {
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// GroupSyncer is the Schema for the groupsyncers API
-type GroupSyncer struct {
+// GroupTemplate is the Schema for the grouptemplates API
+type GroupTemplate struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   GroupSyncerSpec   `json:"spec,omitempty"`
-	Status GroupSyncerStatus `json:"status,omitempty"`
+	Spec   GroupTemplateSpec   `json:"spec,omitempty"`
+	Status GroupTemplateStatus `json:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// GroupSyncerList contains a list of GroupSyncer
-type GroupSyncerList struct {
+// GroupTemplateList contains a list of GroupTemplate
+type GroupTemplateList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []GroupSyncer `json:"items"`
+	Items           []GroupTemplate `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&GroupSyncer{}, &GroupSyncerList{})
+	SchemeBuilder.Register(&GroupTemplate{}, &GroupTemplateList{})
 }
 
-func (in GroupSyncer) ProcessTemplate(o interface{}) (string, error) {
+func (in GroupTemplate) ProcessTemplate(o interface{}) (string, error) {
 	// funcMap := template.FuncMap{
 	// 	"replace": replace,
 	// 	"lower":   lower,

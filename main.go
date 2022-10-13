@@ -88,12 +88,12 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&controllers.GroupSyncerReconciler{
+	if err = (&controllers.GroupTemplateReconciler{
 		Client:     mgr.GetClient(),
 		Scheme:     mgr.GetScheme(),
 		OktaConfig: oc,
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "GroupSyncer")
+		setupLog.Error(err, "unable to create controller", "controller", "GroupTemplate")
 		os.Exit(1)
 	}
 	//+kubebuilder:scaffold:builder

@@ -8,7 +8,7 @@ rules:
 - apiGroups:
   - okta.github.com
   resources:
-  - groupsyncers
+  - grouptemplates
   verbs:
   - create
   - delete
@@ -20,13 +20,13 @@ rules:
 - apiGroups:
   - okta.github.com
   resources:
-  - groupsyncers/finalizers
+  - grouptemplates/finalizers
   verbs:
   - update
 - apiGroups:
   - okta.github.com
   resources:
-  - groupsyncers/status
+  - grouptemplates/status
   verbs:
   - get
   - patch

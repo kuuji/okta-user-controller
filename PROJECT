@@ -10,7 +10,7 @@ resources:
   controller: true
   domain: github.com
   group: okta
-  kind: GroupSyncer
+  kind: GroupTemplate
   path: github.com/kuuji/okta-user-controller/api/v1
   version: v1
 version: "3"

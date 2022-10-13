@@ -1,0 +1,13 @@
+apiVersion: okta.github.com/v1
+kind: GroupTemplate
+metadata:
+  name: grouptemplate-sample
+spec:
+  group: engineering
+  template: |
+    {{- $awsuser := replace "@" "-" (get .Profile "email") }}
+    {{- $namespace := replace "." "-" $awsuser -}}
+    - namespace: {{ $namespace }}
+      awsuser: {{ $awsuser }}
+      rolefunction2: {{ get .Profile "roleFunction2" }}
+      created: {{ .Created | date "2006-01-02" }}

@@ -1,13 +1,13 @@
-# permissions for end users to edit groupsyncers.
+# permissions for end users to edit grouptemplates.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: groupsyncer-editor-role
+  name: grouptemplate-editor-role
 rules:
 - apiGroups:
   - okta.github.com
   resources:
-  - groupsyncers
+  - grouptemplates
   verbs:
   - create
   - delete
@@ -19,6 +19,6 @@ rules:
 - apiGroups:
   - okta.github.com
   resources:
-  - groupsyncers/status
+  - grouptemplates/status
   verbs:
   - get

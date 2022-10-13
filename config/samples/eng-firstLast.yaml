@@ -1,5 +1,5 @@
 apiVersion: okta.github.com/v1
-kind: GroupSyncer
+kind: GroupTemplate
 metadata:
   name: gs-engfirstlast
 spec:
