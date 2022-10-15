@@ -3,6 +3,8 @@ version: v1beta11
 # `vars` specifies variables which may be used as ${VAR_NAME} in devspace.yaml
 vars:
 - name: DOCKER_REGISTRY
+- name: OKTA_ORG
+- name: OKTA_TOKEN
 - name: IMAGE
   value: ${DOCKER_REGISTRY}/okta-user-controller
 

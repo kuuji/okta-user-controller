@@ -1,7 +1,7 @@
 apiVersion: okta.github.com/v1
 kind: GroupTemplate
 metadata:
-  name: grouptemplate-sample
+  name: grouptemplate-secret
 spec:
   group: engineering
   template: |
@@ -10,7 +10,7 @@ spec:
     kind: Secret
     type: Opaque
     metadata:
-      name: test-secret-{{ $awsuser }}
+      names: test-secret-{{ $awsuser }}
     stringData:
       namespace: {{ $namespace }}
       awsuser: {{ $awsuser }}

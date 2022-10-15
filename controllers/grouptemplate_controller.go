@@ -86,7 +86,6 @@ func (r *GroupTemplateReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 			if login, ok := profile["login"]; ok {
 				tplErrs[login.(string)] = err.Error()
 			}
-
 		}
 		obj := make(map[string]interface{})
 		err = yaml.Unmarshal([]byte(out), &obj)
@@ -110,7 +109,11 @@ func (r *GroupTemplateReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 					}
 					ctrlLog.Info("secret updated", "secret", secret)
 				} else if err != nil {
-					return ctrl.Result{}, err
+					profile := *v.Profile
+					if login, ok := profile["login"]; ok {
+						tplErrs[login.(string)] = err.Error()
+					}
+					// return ctrl.Result{}, err
 				} else {
 					ctrlLog.Info("secret created", "secret", secret)
 				}
@@ -123,9 +126,9 @@ func (r *GroupTemplateReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		ctrlLog.Error(err, "unable to update GroupTemplate status")
 		return ctrl.Result{}, err
 	}
-	if len(tplErrs) > 0 {
-		return ctrl.Result{}, fmt.Errorf("error in the template, aborting early")
-	}
+	// if len(tplErrs) > 0 {
+	// 	return ctrl.Result{}, fmt.Errorf("error in the template, aborting early")
+	// }
 	// cm := &corev1.ConfigMap{
 	// 	ObjectMeta: v1.ObjectMeta{Name: gs.Name, Namespace: gs.Namespace},
 	// 	Data: map[string]string{
